@@ -17,9 +17,9 @@
     <!--main quiz section-->
     <div class="container is-fullhd" v-if="show">
       <div class="card">
-        <div class="card-image">
-          <figure class="image is-4by3">
-            <img src="../assets/images/bird.jpg" alt="Placeholder image">
+        <div class="card-image column is-four-fifths is-offset-1-desktop">
+          <figure class="image is-1by2">
+            <img :src="'../src/assets/images/'+ singleImageName +'.jpg'" alt="Placeholder image">
           </figure>
         </div>
         <div class="card-content">
@@ -33,7 +33,7 @@
                     <input type="radio"  :id="item.name" :value="item.name" v-model="picked">
                     <label :for="item.name">
                       {{item.name}}
-                      <button class="button is-small is-info" @click="play= true">
+                      <button class="button is-small is-info" @click="Play(item.sound)">
                         <icon name="play" ></icon>
                       </button>
                     </label>
@@ -61,12 +61,10 @@
 <script>
   name: 'Vocabulary'
   export default {
-    data () {
-      return {
-        play: false
-      }
-    },
     computed: {
+      singleImageName () {
+        return this.$store.getters.singleImageName
+      },
       show () {
         return this.$store.getters.show
       },
@@ -92,6 +90,10 @@
       },
       Next () {
         this.$store.dispatch('GoToNext')
+      },
+      Play (sound) {
+        let audio = new Audio(sound)
+        audio.play()
       }
     }
   }

@@ -22,9 +22,14 @@ export const store = new Vuex.Store({
     show: false,
     loading: false,
     picked: [],
-    randomNames: []
+    randomNames: [],
+    counter: 0,
+    singleImageName: ''
   },
   getters: {
+    singleImageName: (state) => {
+      return state.singleImageName
+    },
     show: (state) => {
       return state.show
     },
@@ -60,9 +65,41 @@ export const store = new Vuex.Store({
         context.commit('setShow', true)
       }, 1000)
     },
-    GoToNext: (context, state) => {
-      let randomValue = _.uniq(_.sampleSize(context.state.imageNames, 4))
-      context.commit('SetRandomNames', randomValue)
+    GoToNext: (context) => {
+      let counter = context.state.counter ++
+
+      // getting the image name one by one
+      let imageName = _.get(context.state.imageNames, counter)
+      let arr1 = _.sampleSize(context.state.imageNames,4)
+
+      // now checking if the image name is in the array or not
+      if (_.some(arr1, _.unary(_.partialRight(_.includes, imageName.name)))) {
+        console.log('yes')
+        context.commit('SetRandomNames', arr1)
+      } else {
+        // removing an item from this array and replace it with image name and sound
+        arr1.splice(_.random(0,3),1, {name: imageName.name, sound: 'src/assets/Animals/'+ imageName.name +'.mp3'})
+
+        // committing the newly created array
+        context.commit('SetRandomNames', arr1)
+        console.log('no', arr1)
+      }
+
+      if (imageName) {
+
+        // passing the single image name to the state
+        context.state.singleImageName = imageName.name
+
+        // checking for answer
+        if (context.getters.picked !== null && imageName.name === context.getters.picked) {
+          console.log('correct')
+        } else {
+          console.log('wrong')
+        }
+      }
+
+      context.commit('SetPicked',null)
+
     }
   }
 })
