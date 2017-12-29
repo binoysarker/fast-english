@@ -6,6 +6,9 @@ import lodash from 'lodash'
 import VueLodash from 'vue-lodash'
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
+import Notifications from 'vue-notification'
+
+Vue.use(Notifications)
 
 Vue.use(VueLodash, lodash)
 // globally (in your main .js file)

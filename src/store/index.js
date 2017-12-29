@@ -85,10 +85,9 @@ export const store = new Vuex.Store({
         console.log('no', arr1)
       }
 
-      if (imageName) {
+      /*if (imageName) {
 
-        // passing the single image name to the state
-        context.state.singleImageName = imageName.name
+
 
         // checking for answer
         if (context.getters.picked !== null && imageName.name === context.getters.picked) {
@@ -96,8 +95,9 @@ export const store = new Vuex.Store({
         } else {
           console.log('wrong')
         }
-      }
-
+      }*/
+      // passing the single image name to the state
+      context.state.singleImageName = imageName.name
       context.commit('SetPicked',null)
 
     }

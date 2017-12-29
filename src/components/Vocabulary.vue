@@ -79,7 +79,21 @@
           return this.$store.getters.picked
         },
         set (value) {
-          this.$store.commit('SetPicked', value)
+          if (value === this.singleImageName) {
+            this.$notify({
+              type: 'success',
+              title: 'Success',
+              text: 'Your answer is correct!'
+            });
+            this.$store.commit('SetPicked', value)
+          } else {
+            this.$notify({
+              type: 'error',
+              title: 'Wrong!',
+              text: 'You are wrong!'
+            });
+            this.$store.commit('SetPicked', value)
+          }
         }
       }
     },
